@@ -1,25 +1,23 @@
-export const LITERS_PER_US_GALLON = 3.785411784
+export const CURRENCIES = ["USD", "CAD", "EUR", "GBP", "MXN", "AUD", "JPY"];
 
-export function usdPerGallonToCadPerLiter(usdPerGallon, cadPerUsd) {
-  return (usdPerGallon * cadPerUsd) / LITERS_PER_US_GALLON
-}
-
-export function cadPerLiterToUsdPerGallon(cadPerLiter, cadPerUsd) {
-  return (cadPerLiter * LITERS_PER_US_GALLON) / cadPerUsd
-}
+export const UNITS = {
+  L: { name: "litre", short: "L", litres: 1 },
+  USGAL: { name: "US gallon", short: "US gal", litres: 3.785411784 },
+  IMPGAL: { name: "imperial gallon", short: "imp gal", litres: 4.54609 },
+};
 
 export function parsePositive(value) {
-  const number = Number(String(value).trim())
-  if (!Number.isFinite(number) || number <= 0) return null
-  return number
+  const number = Number(String(value).trim());
+  if (!Number.isFinite(number) || number <= 0) return null;
+  return number;
 }
 
-export function convertPrice(price, rate, direction) {
-  const amount = parsePositive(price)
-  const cadPerUsd = parsePositive(rate)
-  if (amount == null || cadPerUsd == null) return null
+// `rate` is units of the target currency per 1 unit of the source currency.
+// Price per target unit = price per source unit * rate * (litres in target / litres in source).
+export function convertPrice(price, rate, fromUnit, toUnit) {
+  const amount = parsePositive(price);
+  const factor = parsePositive(rate);
+  if (amount == null || factor == null) return null;
 
-  return direction === 'usd'
-    ? usdPerGallonToCadPerLiter(amount, cadPerUsd)
-    : cadPerLiterToUsdPerGallon(amount, cadPerUsd)
+  return amount * factor * (UNITS[toUnit].litres / UNITS[fromUnit].litres);
 }
