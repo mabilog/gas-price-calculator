@@ -1,16 +1,28 @@
 # Gas price converter
 
-A small, mobile-first Preact app that converts fuel prices between currencies and volume units. Type a pump price, choose its currency and unit, and see it in another currency and unit.
+A small, mobile-first Preact app with three tabs. **Price** converts a pump price between currencies and volume units. **Figure** converts a known fuel-economy number between L/100 km and miles per gallon. **Fill-up** works out that figure from how far you drove and how much fuel you put back in the tank.
 
 Live site: https://mabilog.github.io/gas-price-calculator/
 
 ## Features
+
+Price tab:
 
 - Currencies: USD, CAD, EUR, GBP, MXN, AUD, JPY
 - Units: litre, US gallon, imperial gallon
 - Swap button to flip the two sides
 - Exchange rates fetched per currency pair, with a manual override
 - Rates cached in the browser (`localStorage`), so a refresh works offline
+
+Figure tab:
+
+- Convert a known figure between L/100 km, US mpg, and imperial mpg
+
+Fill-up tab:
+
+- Distance in kilometres or miles
+- Fuel put back in litres, US gallons, or imperial gallons
+- Results: L/100 km, US mpg, and imperial mpg
 
 ## Conversion
 
@@ -26,6 +38,25 @@ price in target = price in source × rate × (litres in target / litres in sourc
 ```
 
 `rate` is units of the target currency per 1 unit of the source currency.
+
+Fuel economy uses the same gallon sizes and 1 mile = 1.609344 km.
+
+From a fill-up:
+
+```
+litres  = fuel × litres in that unit
+km      = distance, or distance × 1.609344 when entered in miles
+L/100km = litres / km × 100
+```
+
+Between the rates (`C` is L/100 km):
+
+```
+mpg     = (100 × litres in one gallon) / (C × 1.609344)
+L/100km = (100 × litres in one gallon) / (mpg × 1.609344)
+```
+
+US mpg is about `235.215 / C`. Imperial mpg is about `282.481 / C`. A US gallon and an imperial gallon are different sizes, so the two mpg numbers are not interchangeable.
 
 ## Exchange rates
 
@@ -63,8 +94,9 @@ One-time setup in the repository: **Settings → Pages → Source → GitHub Act
 
 ```
 src/
-  app.jsx      UI: inputs, selects, result, rate field
-  convert.js   Currency list, unit table, conversion formula
+  app.jsx      UI: Price, Figure, and Fill-up tabs
+  convert.js   Currency list, unit table, price formula
+  economy.js   L/100 km, mpg, and fill-up formulas
   rate.js      Frankfurter fetch and localStorage cache
   app.css      Styles
   index.css    Global base styles

@@ -38,7 +38,24 @@ input:disabled {
   color: #666;
 }
 
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.tabs button[aria-selected="true"] {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
 .side {
+  margin-bottom: 0.75rem;
+}
+
+.side select {
   margin-bottom: 0.75rem;
 }
 
@@ -90,6 +107,27 @@ button {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
+}
+
+.figures {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+}
+
+.figures li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-top: 1px solid #e4e4e4;
+}
+
+.figures .value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .meta,
