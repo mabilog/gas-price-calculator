@@ -4,7 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f6f6f6" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Gas price" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Gas price</title>
+    <script>
+      // Apply a saved Light/Dark choice before first paint to avoid a flash.
+      try {
+        var theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="app"></div>

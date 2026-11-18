@@ -35,6 +35,19 @@ export function fillUpToLitresPer100km(distance, distanceUnit, fuel, fuelUnit) {
   return (litres / km) * 100;
 }
 
+// `price` is per unit of the fuel unit the fuel was entered in.
+export function fillUpCost(fuel, price, distance, distanceUnit) {
+  const amount = parsePositive(fuel);
+  const unitPrice = parsePositive(price);
+  const travelled = parsePositive(distance);
+  if (amount == null || unitPrice == null || travelled == null) return null;
+
+  const total = amount * unitPrice;
+  const km = distanceUnit === "mi" ? travelled * KM_PER_MILE : travelled;
+  const perKm = total / km;
+  return { total, perKm, perMile: perKm * KM_PER_MILE };
+}
+
 export function figuresFromLitresPer100km(litresPer100km) {
   const consumption = parsePositive(litresPer100km);
   if (consumption == null) return null;
